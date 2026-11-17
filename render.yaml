@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: easedrive-car-rental
+    env: python
+    plan: free
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn carweb.wsgi:application"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: PYTHON_VERSION
+        value: "3.12.0"

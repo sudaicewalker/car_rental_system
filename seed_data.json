@@ -1,0 +1,301 @@
+[
+{
+  "model": "carapplication.customer",
+  "pk": 1,
+  "fields": {
+    "user": null,
+    "name": "Matovu yunus",
+    "gender": "MALE",
+    "telephone": 706788396,
+    "email": "yunus23@gmail.com"
+  }
+},
+{
+  "model": "carapplication.customer",
+  "pk": 2,
+  "fields": {
+    "user": null,
+    "name": "nakiganda mariam",
+    "gender": "FEMALE",
+    "telephone": 703464358,
+    "email": "mariannak@gmail.com"
+  }
+},
+{
+  "model": "carapplication.customer",
+  "pk": 3,
+  "fields": {
+    "user": 3,
+    "name": "tariq tamuzadde",
+    "gender": "MALE",
+    "telephone": 7963557282,
+    "email": "tariq@gmail.com"
+  }
+},
+{
+  "model": "carapplication.customer",
+  "pk": 4,
+  "fields": {
+    "user": 2,
+    "name": "walkersudaice",
+    "gender": "MALE",
+    "telephone": 756592073,
+    "email": "walkersudaice@example.com"
+  }
+},
+{
+  "model": "carapplication.customer",
+  "pk": 5,
+  "fields": {
+    "user": 5,
+    "name": "Edgar Shema",
+    "gender": "MALE",
+    "telephone": 0,
+    "email": "edgarshema27@gmail.com"
+  }
+},
+{
+  "model": "carapplication.driver",
+  "pk": 1,
+  "fields": {
+    "name": "haruna",
+    "gender": "MALE",
+    "contact": "0783654556",
+    "Date_of_birth": "1996-02-08",
+    "driver_license": "DK 1234F",
+    "salary": 35000
+  }
+},
+{
+  "model": "carapplication.driver",
+  "pk": 3,
+  "fields": {
+    "name": "Ryan sebugwawo",
+    "gender": "MALE",
+    "contact": "0757737359",
+    "Date_of_birth": "2004-06-25",
+    "driver_license": "DK 935WE",
+    "salary": 130000
+  }
+},
+{
+  "model": "carapplication.car",
+  "pk": 1,
+  "fields": {
+    "car_model": "mercedes GLE",
+    "color": "Black",
+    "number_plate": "UA 3452K",
+    "status": "available",
+    "rental_rate": 50000,
+    "image": "cars/gle.jfif"
+  }
+},
+{
+  "model": "carapplication.car",
+  "pk": 2,
+  "fields": {
+    "car_model": "toyota Noah",
+    "color": "white",
+    "number_plate": "UBE 784G",
+    "status": "available",
+    "rental_rate": 42000,
+    "image": "cars/noah.jfif"
+  }
+},
+{
+  "model": "carapplication.car",
+  "pk": 3,
+  "fields": {
+    "car_model": "premo",
+    "color": "red",
+    "number_plate": "UBQ 234D",
+    "status": "available",
+    "rental_rate": 30000,
+    "image": "cars/premo.jfif"
+  }
+},
+{
+  "model": "carapplication.car",
+  "pk": 4,
+  "fields": {
+    "car_model": "defender",
+    "color": "peal green",
+    "number_plate": "UA 325TY",
+    "status": "available",
+    "rental_rate": 45000,
+    "image": "cars/defender.jfif"
+  }
+},
+{
+  "model": "carapplication.car",
+  "pk": 5,
+  "fields": {
+    "car_model": "Range Rover",
+    "color": "Black",
+    "number_plate": "UA 785CD",
+    "status": "maintainance",
+    "rental_rate": 74998,
+    "image": "cars/range.jfif"
+  }
+},
+{
+  "model": "carapplication.car",
+  "pk": 6,
+  "fields": {
+    "car_model": "mecedeces Gwagon",
+    "color": "red",
+    "number_plate": "UA 576WB",
+    "status": "available",
+    "rental_rate": 65000,
+    "image": "cars/gwagon.jfif"
+  }
+},
+{
+  "model": "carapplication.car",
+  "pk": 7,
+  "fields": {
+    "car_model": "land cruiser",
+    "color": "white",
+    "number_plate": "UA 234KJ",
+    "status": "rented",
+    "rental_rate": 60000,
+    "image": "cars/land_cruise.jfif"
+  }
+},
+{
+  "model": "carapplication.car",
+  "pk": 8,
+  "fields": {
+    "car_model": "raum",
+    "color": "sky blue",
+    "number_plate": "UBB 267G",
+    "status": "available",
+    "rental_rate": 17992,
+    "image": "cars/raum.jpg"
+  }
+},
+{
+  "model": "carapplication.service",
+  "pk": 1,
+  "fields": {
+    "name": "with driver",
+    "description": "You a given a driver to drive you at a cost",
+    "cost": 5000
+  }
+},
+{
+  "model": "carapplication.service",
+  "pk": 3,
+  "fields": {
+    "name": "self driving",
+    "description": "No drive is given, its a self drive",
+    "cost": 0
+  }
+},
+{
+  "model": "carapplication.hiring",
+  "pk": 1,
+  "fields": {
+    "customer": 1,
+    "car": 1,
+    "service": 1,
+    "driver": 3,
+    "pick_up_date": "2026-11-08",
+    "return_date": "2026-11-10",
+    "status": "pending"
+  }
+},
+{
+  "model": "carapplication.hiring",
+  "pk": 2,
+  "fields": {
+    "customer": 3,
+    "car": 1,
+    "service": 1,
+    "driver": 1,
+    "pick_up_date": "2026-11-10",
+    "return_date": "2026-11-12",
+    "status": "confirmed"
+  }
+},
+{
+  "model": "carapplication.hiring",
+  "pk": 3,
+  "fields": {
+    "customer": 5,
+    "car": 7,
+    "service": 1,
+    "driver": 3,
+    "pick_up_date": "2026-11-15",
+    "return_date": "2026-11-19",
+    "status": "confirmed"
+  }
+},
+{
+  "model": "carapplication.payment",
+  "pk": 2,
+  "fields": {
+    "hiring": 2,
+    "amount_paid": 100000,
+    "status": "completed",
+    "methods": "Cash",
+    "payment_date": "2026-11-09"
+  }
+},
+{
+  "model": "carapplication.payment",
+  "pk": 3,
+  "fields": {
+    "hiring": 3,
+    "amount_paid": 240000,
+    "status": "completed",
+    "methods": "Mobile Money",
+    "payment_date": "2026-11-12"
+  }
+},
+{
+  "model": "carapplication.userprofile",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "role": "admin",
+    "customer": null
+  }
+},
+{
+  "model": "carapplication.userprofile",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "role": "customer",
+    "customer": 4
+  }
+},
+{
+  "model": "carapplication.userprofile",
+  "pk": 3,
+  "fields": {
+    "user": 3,
+    "role": "customer",
+    "customer": 3
+  }
+},
+{
+  "model": "carapplication.userprofile",
+  "pk": 4,
+  "fields": {
+    "user": 4,
+    "role": "admin",
+    "customer": null
+  }
+},
+{
+  "model": "carapplication.userprofile",
+  "pk": 5,
+  "fields": {
+    "user": 5,
+    "role": "customer",
+    "customer": 5
+  }
+}
+]
