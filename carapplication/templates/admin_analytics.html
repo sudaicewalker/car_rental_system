@@ -1,0 +1,357 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Header -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+        <div>
+            <h2 class="fw-bold mb-1"><i class="fas fa-chart-line text-primary me-2"></i>Rental Revenue & Fleet Analytics</h2>
+            <p class="text-muted small mb-0">Overview of rental revenues, most rented vehicles, and customer spending breakdown</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="{% url 'add_car' %}" class="btn btn-outline-primary btn-sm rounded-pill">
+                <i class="fas fa-car me-1"></i> Fleet Management
+            </a>
+            <a href="{% url 'add_payment' %}" class="btn btn-primary btn-sm rounded-pill">
+                <i class="fas fa-wallet me-1"></i> Payment Records
+            </a>
+        </div>
+    </div>
+
+    <!-- Revenue & Volume Metrics -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-muted small fw-bold text-uppercase d-block mb-1">Collected Revenue</span>
+                        <h3 class="fw-bold text-success mb-0">UGX {{ completed_revenue|floatformat:0 }}</h3>
+                        <small class="text-muted"><i class="fas fa-check-circle text-success me-1"></i>Completed payments</small>
+                    </div>
+                    <div class="bg-success bg-opacity-10 text-success rounded-3 p-3">
+                        <i class="fas fa-wallet fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-muted small fw-bold text-uppercase d-block mb-1">Pending Invoices</span>
+                        <h3 class="fw-bold text-warning mb-0">UGX {{ pending_revenue|floatformat:0 }}</h3>
+                        <small class="text-muted"><i class="fas fa-clock text-warning me-1"></i>Pending payments</small>
+                    </div>
+                    <div class="bg-warning bg-opacity-10 text-warning rounded-3 p-3">
+                        <i class="fas fa-hourglass-half fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-muted small fw-bold text-uppercase d-block mb-1">Gross Total Value</span>
+                        <h3 class="fw-bold text-primary mb-0">UGX {{ total_revenue|floatformat:0 }}</h3>
+                        <small class="text-muted"><i class="fas fa-calculator text-primary me-1"></i>All payment entries</small>
+                    </div>
+                    <div class="bg-primary bg-opacity-10 text-primary rounded-3 p-3">
+                        <i class="fas fa-coins fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-muted small fw-bold text-uppercase d-block mb-1">Rental Bookings</span>
+                        <h3 class="fw-bold text-dark mb-0">{{ total_hirings }}</h3>
+                        <small class="text-muted">
+                            <span class="text-success">{{ confirmed_hirings }} confirmed</span> &bull; 
+                            <span class="text-warning">{{ pending_hirings }} pending</span>
+                        </small>
+                    </div>
+                    <div class="bg-info bg-opacity-10 text-info rounded-3 p-3">
+                        <i class="fas fa-clipboard-list fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Highlight: Most Rented Car -->
+    {% if most_rented_car %}
+    <div class="card border-0 shadow-sm rounded-4 p-4 mb-5 bg-gradient text-white" style="background: linear-gradient(135deg, #0d6efd 0%, #0f3460 100%);">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center mb-3 mb-md-0">
+                {% if most_rented_car.image %}
+                    <img src="{{ most_rented_car.image.url }}" alt="{{ most_rented_car.car_model }}" class="img-fluid rounded-4 shadow" style="max-height: 180px; width: 100%; object-fit: cover;">
+                {% else %}
+                    <div class="bg-white bg-opacity-10 rounded-4 py-5 text-white">
+                        <i class="fas fa-car fa-4x mb-2 opacity-75"></i>
+                        <p class="mb-0 small">No picture uploaded</p>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-md-8">
+                <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold text-uppercase mb-2">
+                    <i class="fas fa-trophy me-1"></i> #1 Most Rented Vehicle
+                </span>
+                <h3 class="fw-bold mb-1">{{ most_rented_car.car_model }}</h3>
+                <p class="opacity-75 mb-3">
+                    <i class="fas fa-hashtag me-1"></i> Plate: {{ most_rented_car.number_plate }} &nbsp;|&nbsp; 
+                    <i class="fas fa-paint-brush me-1"></i> Color: {{ most_rented_car.color }} &nbsp;|&nbsp; 
+                    Rate: UGX {{ most_rented_car.rental_rate|floatformat:0 }}/day
+                </p>
+                <div class="d-flex flex-wrap gap-4">
+                    <div>
+                        <small class="opacity-75 d-block">Times Rented</small>
+                        <h4 class="fw-bold mb-0">{{ most_rented_car.rental_count }} bookings</h4>
+                    </div>
+                    <div>
+                        <small class="opacity-75 d-block">Revenue Generated</small>
+                        <h4 class="fw-bold mb-0 text-warning">UGX {{ most_rented_car.total_revenue|floatformat:0 }}</h4>
+                    </div>
+                    <div>
+                        <small class="opacity-75 d-block">Current Status</small>
+                        {% if most_rented_car.status == 'available' %}
+                          <span class="badge bg-success text-white mt-1 px-3 py-2 rounded-pill fw-semibold"><i class="fas fa-check-circle me-1"></i> Available</span>
+                        {% elif most_rented_car.status == 'rented' %}
+                          <span class="badge bg-warning text-dark mt-1 px-3 py-2 rounded-pill fw-bold"><i class="fas fa-key me-1"></i> Rented</span>
+                        {% else %}
+                          <span class="badge bg-danger text-white mt-1 px-3 py-2 rounded-pill fw-semibold"><i class="fas fa-tools me-1"></i> Maintenance</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Table 1: Which Car Is Being Rented Many Times (Vehicle Frequency & Revenue) -->
+    <div class="card border-0 shadow-sm rounded-4 mb-5">
+        <div class="card-header bg-white py-3 px-4 border-bottom d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 fw-bold text-dark">
+                <i class="fas fa-fire text-danger me-2"></i>Car Rental Frequency & Revenue (Most to Least Rented)
+            </h5>
+            <span class="badge bg-primary bg-opacity-10 text-primary">{{ cars_by_rentals.count }} Vehicles</span>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">RANK</th>
+                        <th scope="col">VEHICLE PHOTO</th>
+                        <th scope="col">MODEL & DETAILS</th>
+                        <th scope="col">PLATE</th>
+                        <th scope="col">TIMES RENTED</th>
+                        <th scope="col">REVENUE GENERATED</th>
+                        <th scope="col">STATUS</th>
+                        <th scope="col" class="text-end">ACTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for car in cars_by_rentals %}
+                        <tr>
+                            <td>
+                                {% if forloop.counter == 1 %}
+                                    <span class="badge bg-warning text-dark rounded-circle p-2"><i class="fas fa-crown"></i></span>
+                                {% elif forloop.counter == 2 %}
+                                    <span class="badge bg-secondary text-white rounded-circle p-2">2</span>
+                                {% elif forloop.counter == 3 %}
+                                    <span class="badge bg-danger bg-opacity-25 text-danger rounded-circle p-2">3</span>
+                                {% else %}
+                                    <span class="text-muted fw-bold ps-2">{{ forloop.counter }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if car.image %}
+                                    <img src="{{ car.image.url }}" alt="{{ car.car_model }}" style="width: 70px; height: 48px; object-fit: cover; border-radius: 8px; border: 1px solid #dee2e6;">
+                                {% else %}
+                                    <div class="bg-light d-flex align-items-center justify-content-center text-muted" style="width: 70px; height: 48px; border-radius: 8px; border: 1px dashed #ced4da;">
+                                        <i class="fas fa-image opacity-50"></i>
+                                    </div>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <strong>{{ car.car_model }}</strong>
+                                <br><small class="text-muted"><i class="fas fa-paint-brush me-1"></i>{{ car.color }}</small>
+                            </td>
+                            <td><span class="badge bg-light text-dark border">{{ car.number_plate }}</span></td>
+                            <td>
+                                <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill fw-bold">
+                                    <i class="fas fa-key me-1"></i>{{ car.rental_count }} times
+                                </span>
+                            </td>
+                            <td>
+                                <strong class="text-success">UGX {{ car.total_revenue|floatformat:0 }}</strong>
+                            </td>
+                            <td>
+                                {% if car.status == 'available' %}
+                                    <span class="badge bg-success text-white px-3 py-2 rounded-pill fw-semibold">
+                                        <i class="fas fa-check-circle me-1"></i> Available
+                                    </span>
+                                {% elif car.status == 'rented' %}
+                                    <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold">
+                                        <i class="fas fa-key me-1"></i> Rented
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-danger text-white px-3 py-2 rounded-pill fw-semibold">
+                                        <i class="fas fa-tools me-1"></i> Maintenance
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td class="text-end text-nowrap">
+                                <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1 fw-semibold" data-bs-toggle="modal" data-bs-target="#editAnalyticsCarModal{{ car.id }}" title="Edit Vehicle & Photo">
+                                    <i class="fas fa-edit me-1"></i> Edit
+                                </button>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="8" class="text-center py-4 text-muted">No vehicles registered yet.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modals Section for Analytics (Placed outside table) -->
+    {% for car in cars_by_rentals %}
+        <div class="modal fade text-start" id="editAnalyticsCarModal{{ car.id }}" tabindex="-1" aria-labelledby="editAnalyticsCarModalLabel{{ car.id }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content rounded-4 border-0 shadow">
+                    <div class="modal-header bg-primary text-white rounded-top-4 py-3 px-4">
+                        <h5 class="modal-title fw-bold" id="editAnalyticsCarModalLabel{{ car.id }}">
+                            <i class="fas fa-edit me-2"></i>Edit {{ car.car_model }}
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="POST" action="{% url 'edit_car' car.id %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="modal-body p-4">
+                            <!-- Current Image Preview -->
+                            <div class="mb-3 text-center p-2 bg-light rounded-3 border">
+                                <label class="form-label fw-bold d-block text-start mb-1 small text-muted">Current Picture</label>
+                                {% if car.image %}
+                                    <img src="{{ car.image.url }}" alt="{{ car.car_model }}" class="img-fluid rounded-3" style="max-height: 140px; width: 100%; object-fit: cover;">
+                                {% else %}
+                                    <div class="py-3 text-muted">
+                                        <i class="fas fa-image fa-2x mb-1 opacity-50"></i>
+                                        <p class="small mb-0">No picture uploaded yet</p>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Car Model</label>
+                                <input type="text" name="car_model" class="form-control" value="{{ car.car_model }}" required>
+                            </div>
+                            <div class="row g-2 mb-3">
+                                <div class="col-6">
+                                    <label class="form-label fw-semibold">Color</label>
+                                    <input type="text" name="color" class="form-control" value="{{ car.color }}" required>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label fw-semibold">Number Plate</label>
+                                    <input type="text" name="number_plate" class="form-control" value="{{ car.number_plate }}" required>
+                                </div>
+                            </div>
+                            <div class="row g-2 mb-3">
+                                <div class="col-6">
+                                    <label class="form-label fw-semibold">Status</label>
+                                    <select name="status" class="form-select" required>
+                                        <option value="available" {% if car.status == 'available' %}selected{% endif %}>Available</option>
+                                        <option value="rented" {% if car.status == 'rented' %}selected{% endif %}>Rented</option>
+                                        <option value="maintainance" {% if car.status == 'maintainance' %}selected{% endif %}>Maintenance</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label fw-semibold">Rate (UGX/Day)</label>
+                                    <input type="number" name="rental_rate" class="form-control" value="{{ car.rental_rate }}" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Change / Upload Picture</label>
+                                <input type="file" name="image" class="form-control" accept="image/*">
+                                <small class="text-muted">Upload a new picture to replace the current one.</small>
+                            </div>
+                        </div>
+                        <div class="modal-footer border-0 pt-0 px-4 pb-4">
+                            <button type="button" class="btn btn-outline-secondary rounded-pill px-3" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary rounded-pill px-4">
+                                <i class="fas fa-save me-1"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    <!-- Table 2: Revenue by Each Customer -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+        <div class="card-header bg-white py-3 px-4 border-bottom d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 fw-bold text-dark">
+                <i class="fas fa-users text-primary me-2"></i>Revenue Generated by Each Customer
+            </h5>
+            <span class="badge bg-success bg-opacity-10 text-success">{{ customers_revenue.count }} Registered Clients</span>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">RANK</th>
+                        <th scope="col">CUSTOMER NAME</th>
+                        <th scope="col">EMAIL</th>
+                        <th scope="col">TELEPHONE</th>
+                        <th scope="col">GENDER</th>
+                        <th scope="col">TOTAL BOOKINGS</th>
+                        <th scope="col" class="text-end">TOTAL REVENUE PAID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for client in customers_revenue %}
+                        <tr>
+                            <td>
+                                {% if forloop.counter == 1 and client.total_spent > 0 %}
+                                    <span class="badge bg-warning text-dark rounded-circle p-2"><i class="fas fa-star"></i></span>
+                                {% else %}
+                                    <span class="text-muted fw-bold ps-2">{{ forloop.counter }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <strong>{{ client.name }}</strong>
+                            </td>
+                            <td>{{ client.email }}</td>
+                            <td>{{ client.telephone|default:"—" }}</td>
+                            <td>
+                                <span class="badge bg-light text-muted border">{{ client.gender }}</span>
+                            </td>
+                            <td>
+                                <span class="badge bg-info bg-opacity-10 text-info px-3 py-2 rounded-pill">
+                                    {{ client.bookings_count }} hires
+                                </span>
+                            </td>
+                            <td class="text-end">
+                                <h6 class="fw-bold text-success mb-0">UGX {{ client.total_spent|floatformat:0 }}</h6>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center py-4 text-muted">No customers recorded yet.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+

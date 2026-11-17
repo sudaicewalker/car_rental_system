@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book a Car — EaseDrive</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f4f8;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .dash-nav {
+      background: linear-gradient(90deg, #0f3460, #16213e);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    .dash-nav .brand {
+      color: white;
+      font-size: 1.3rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .dash-nav .brand i { color: #4dabf7; }
+    .dash-nav .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .dash-nav .nav-links a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .dash-nav .nav-links a:hover { color: white; background: rgba(255,255,255,0.1); }
+    .dash-nav .user-btn {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .page-header {
+      background: linear-gradient(135deg, #0f3460, #0d6efd);
+      color: white;
+      padding: 48px 24px 60px;
+      position: relative;
+    }
+    .page-header::after {
+      content: '';
+      position: absolute;
+      bottom: -30px; left: 0; right: 0;
+      height: 60px;
+      background: #f0f4f8;
+      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    }
+    .page-header h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 8px; }
+    .page-header p { opacity: 0.8; margin: 0; }
+    .main-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 24px 60px;
+    }
+    /* Car Cards */
+    .car-select-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+      transition: all 0.2s;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+    .car-select-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+    .car-select-card.selected { border-color: #0d6efd; }
+    .car-select-card img { width: 100%; height: 160px; object-fit: cover; }
+    .car-select-card .card-body { padding: 16px; }
+    .car-select-card h6 { font-weight: 700; margin-bottom: 4px; }
+    .car-select-card .rate { color: #0d6efd; font-weight: 700; font-size: 1rem; }
+    /* Booking Form Card */
+    .booking-form-card {
+      background: white;
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    .booking-form-card label {
+      font-weight: 600;
+      color: #343a40;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+    }
+    .form-control, .form-select {
+      border-radius: 10px;
+      padding: 11px 14px;
+      border: 1.5px solid #e9ecef;
+      transition: border-color 0.2s;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: #0d6efd;
+      box-shadow: 0 0 0 3px rgba(13,110,253,0.1);
+    }
+    .btn-book {
+      background: linear-gradient(135deg, #0d6efd, #0a58ca);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-weight: 700;
+      padding: 14px 32px;
+      font-size: 1rem;
+      transition: all 0.2s;
+      box-shadow: 0 4px 15px rgba(13,110,253,0.3);
+    }
+    .btn-book:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(13,110,253,0.4); color: white; }
+    .alert-info-custom {
+      background: rgba(13,110,253,0.07);
+      border: 1px solid rgba(13,110,253,0.2);
+      border-radius: 12px;
+      padding: 14px 18px;
+      color: #0a58ca;
+      font-size: 0.88rem;
+      margin-bottom: 24px;
+    }
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="dash-nav">
+    <a href="{% url 'index_page' %}" class="brand">
+      <i class="fas fa-car-side"></i> EaseDrive
+    </a>
+    <ul class="nav-links">
+      <li><a href="{% url 'customer_dashboard' %}"><i class="fas fa-home"></i> Dashboard</a></li>
+      <li><a href="{% url 'my_bookings' %}"><i class="fas fa-list-alt"></i> My Bookings</a></li>
+      <li><a href="{% url 'customer_book' %}"><i class="fas fa-plus-circle"></i> Book a Car</a></li>
+      <li>
+        <div class="dropdown">
+          <button class="user-btn dropdown-toggle" data-bs-toggle="dropdown">
+            <i class="fas fa-user-circle"></i> {{ request.user.username }}
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="{% url 'logout_page' %}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div style="max-width:1100px; margin:0 auto; padding:0 24px;">
+      <h2><i class="fas fa-car me-2"></i>Book a Car</h2>
+      <p>Fill in the details below to make a reservation</p>
+    </div>
+  </div>
+
+  <div class="main-content">
+
+    {% if error %}
+    <div class="alert alert-danger rounded-3 mb-4">
+      <i class="fas fa-exclamation-circle me-2"></i>{{ error }}
+    </div>
+    {% endif %}
+
+    <div class="row g-4">
+      <!-- Booking Form -->
+      <div class="col-lg-7">
+        <div class="booking-form-card">
+          <h5 class="fw-bold mb-4"><i class="fas fa-clipboard-list text-primary me-2"></i>Booking Details</h5>
+
+          <div class="alert-info-custom">
+            <i class="fas fa-info-circle me-2"></i>
+            If you select a <strong>With Driver</strong> service, a driver will be automatically assigned by our admin team after booking.
+          </div>
+
+          <form method="POST" action="{% url 'customer_book' %}">
+            {% csrf_token %}
+
+            <div class="mb-3">
+              <label for="{{ form.car.id_for_label }}">Select Car</label>
+              {{ form.car }}
+              {% if form.car.errors %}
+                <div class="text-danger small mt-1">{{ form.car.errors.0 }}</div>
+              {% endif %}
+            </div>
+
+            <div class="mb-3">
+              <label for="{{ form.service.id_for_label }}">Service Type</label>
+              {{ form.service }}
+              {% if form.service.errors %}
+                <div class="text-danger small mt-1">{{ form.service.errors.0 }}</div>
+              {% endif %}
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-6">
+                <label for="{{ form.pick_up_date.id_for_label }}">Pick Up Date</label>
+                {{ form.pick_up_date }}
+                {% if form.pick_up_date.errors %}
+                  <div class="text-danger small mt-1">{{ form.pick_up_date.errors.0 }}</div>
+                {% endif %}
+              </div>
+              <div class="col-6">
+                <label for="{{ form.return_date.id_for_label }}">Return Date</label>
+                {{ form.return_date }}
+                {% if form.return_date.errors %}
+                  <div class="text-danger small mt-1">{{ form.return_date.errors.0 }}</div>
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="d-flex gap-3 mt-4">
+              <button type="submit" class="btn-book">
+                <i class="fas fa-check me-2"></i>Confirm Booking
+              </button>
+              <a href="{% url 'customer_dashboard' %}" class="btn btn-outline-secondary rounded-3 px-4">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Available Cars Sidebar -->
+      <div class="col-lg-5">
+        <div class="section-title"><i class="fas fa-car text-primary me-2"></i>Available Cars</div>
+        {% for car in available_cars %}
+        <div class="car-select-card mb-3">
+          {% if car.image %}
+            <img src="{{ car.image.url }}" alt="{{ car.car_model }}" />
+          {% else %}
+            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80" alt="{{ car.car_model }}" />
+          {% endif %}
+          <div class="card-body">
+            <h6>{{ car.car_model }}</h6>
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-muted"><i class="fas fa-paint-brush me-1"></i>{{ car.color }} &nbsp;|&nbsp; <i class="fas fa-hashtag me-1"></i>{{ car.number_plate }}</small>
+              <span class="rate">UGX {{ car.rental_rate|floatformat:0 }}/day</span>
+            </div>
+            <span class="badge bg-success bg-opacity-15 text-success mt-2 d-inline-block">Available</span>
+          </div>
+        </div>
+        {% empty %}
+        <div class="text-center py-4 text-muted">
+          <i class="fas fa-car-crash fa-3x opacity-25 mb-3"></i>
+          <p>No cars currently available. Please check back later.</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div><!-- .row -->
+
+  </div><!-- .main-content -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

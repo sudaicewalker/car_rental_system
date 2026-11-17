@@ -1,0 +1,52 @@
+{% extends './base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="fw-bold mb-1"><i class="fas fa-edit text-primary me-2"></i>Edit Hiring Record</h2>
+                    <p class="text-muted small mb-0">Update customer booking, vehicle, dates, and driver assignment</p>
+                </div>
+                <a href="{% url 'add_hiring' %}" class="btn btn-outline-secondary btn-sm rounded-pill">
+                    <i class="fas fa-arrow-left me-1"></i> Back to Hirings
+                </a>
+            </div>
+
+            {% if msg %}
+                <div class="alert alert-info alert-dismissible fade show rounded-3" role="alert">
+                    <i class="fas fa-info-circle me-2"></i>{{ msg }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endif %}
+
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-header bg-primary text-white py-3 px-4 rounded-top-4 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold"><i class="fas fa-key me-2"></i>Hiring Record #{{ hiring.id }}</h5>
+                    {% if hiring.status == 'confirmed' %}
+                        <span class="badge bg-success text-white px-3 py-2 rounded-pill fw-semibold"><i class="fas fa-check-circle me-1"></i> Confirmed</span>
+                    {% else %}
+                        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold"><i class="fas fa-clock me-1"></i> Pending</span>
+                    {% endif %}
+                </div>
+                <div class="card-body p-4">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="d-flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary px-4 rounded-pill fw-semibold">
+                                <i class="fas fa-save me-1"></i> Save Changes
+                            </button>
+                            <a href="{% url 'add_hiring' %}" class="btn btn-outline-secondary px-4 rounded-pill fw-semibold">
+                                <i class="fas fa-times me-1"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

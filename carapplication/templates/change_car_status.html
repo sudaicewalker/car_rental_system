@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+
+      <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-header bg-primary text-white rounded-top-4 py-3 px-4">
+          <h5 class="mb-0 fw-bold"><i class="fas fa-car me-2"></i>Change Car Status</h5>
+        </div>
+        <div class="card-body p-4">
+
+          <!-- Car Info -->
+          <div class="bg-light rounded-3 p-3 mb-4">
+            <div class="row g-2">
+              <div class="col-6">
+                <small class="text-muted d-block">Model</small>
+                <strong>{{ car.car_model }}</strong>
+              </div>
+              <div class="col-6">
+                <small class="text-muted d-block">Color</small>
+                <strong>{{ car.color }}</strong>
+              </div>
+              <div class="col-6">
+                <small class="text-muted d-block">Number Plate</small>
+                <strong>{{ car.number_plate }}</strong>
+              </div>
+              <div class="col-6">
+                <small class="text-muted d-block">Current Status</small>
+                {% if car.status == 'available' %}
+                  <span class="badge bg-success text-white px-3 py-2 rounded-pill fw-semibold"><i class="fas fa-check-circle me-1"></i> Available</span>
+                {% elif car.status == 'rented' %}
+                  <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold"><i class="fas fa-key me-1"></i> Rented</span>
+                {% else %}
+                  <span class="badge bg-danger text-white px-3 py-2 rounded-pill fw-semibold"><i class="fas fa-tools me-1"></i> Maintenance</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          {% if msg %}
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>{{ msg }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+          {% endif %}
+
+          <form method="POST">
+            {% csrf_token %}
+            <div class="mb-4">
+              <label class="form-label fw-semibold">New Status</label>
+              {{ form.status }}
+            </div>
+            <div class="d-flex gap-3">
+              <button type="submit" class="btn btn-primary px-4 rounded-3">
+                <i class="fas fa-save me-2"></i>Update Status
+              </button>
+              <a href="{% url 'add_car' %}" class="btn btn-outline-secondary rounded-3">Cancel</a>
+            </div>
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock content %}
