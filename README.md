@@ -9,7 +9,7 @@ A web-based car rental and fleet management platform developed with Django and B
 | No. | Full Name | Registration Number | Role / Contribution |
 | :---: | :--- | :---: | :--- |
 | **1** | **Tamuzadde Suadice** | `224-063011-29270` | Group Member |
-| **2** | **Janke Kaba Koita** | `244-063011-29270` | Group Member |
+| **2** | **Janke Kaba Koita** | `244-063011-29154` | Group Member |
 
 ---
 
