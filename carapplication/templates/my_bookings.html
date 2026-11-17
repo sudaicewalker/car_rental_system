@@ -16,7 +16,7 @@
     }
     .dash-nav {
       background: linear-gradient(90deg, #0f3460, #16213e);
-      padding: 0 24px;
+      padding: 0 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -28,50 +28,59 @@
     }
     .dash-nav .brand {
       color: white;
-      font-size: 1.3rem;
+      font-size: 1.1rem;
       font-weight: 700;
       text-decoration: none;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
+      flex-shrink: 0;
     }
     .dash-nav .brand i { color: #4dabf7; }
     .dash-nav .nav-links {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 2px;
       list-style: none;
       margin: 0;
       padding: 0;
+      flex-wrap: nowrap;
     }
     .dash-nav .nav-links a {
       color: rgba(255,255,255,0.8);
       text-decoration: none;
-      padding: 8px 14px;
+      padding: 8px 10px;
       border-radius: 8px;
-      font-size: 0.9rem;
+      font-size: 0.82rem;
       transition: all 0.2s;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
+      white-space: nowrap;
     }
     .dash-nav .nav-links a:hover { color: white; background: rgba(255,255,255,0.1); }
+    @media (max-width: 480px) {
+      .dash-nav .nav-links .nav-label { display: none; }
+      .dash-nav .nav-links a { padding: 8px; }
+      .dash-nav .brand .brand-label { display: none; }
+    }
     .dash-nav .user-btn {
       background: rgba(255,255,255,0.1);
       border: 1px solid rgba(255,255,255,0.2);
       color: white;
       border-radius: 8px;
-      padding: 8px 14px;
-      font-size: 0.9rem;
+      padding: 7px 10px;
+      font-size: 0.82rem;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
+      white-space: nowrap;
     }
     .page-header {
       background: linear-gradient(135deg, #0f3460, #0d6efd);
       color: white;
-      padding: 48px 24px 60px;
+      padding: 36px 16px 60px;
       position: relative;
     }
     .page-header::after {
@@ -82,12 +91,12 @@
       background: #f0f4f8;
       border-radius: 50% 50% 0 0 / 100% 100% 0 0;
     }
-    .page-header h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 8px; }
-    .page-header p { opacity: 0.8; margin: 0; }
+    .page-header h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+    .page-header p { opacity: 0.8; margin: 0; font-size: 0.9rem; }
     .main-content {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 32px 24px 60px;
+      padding: 24px 16px 60px;
     }
     .table-card {
       background: white;
@@ -95,7 +104,11 @@
       box-shadow: 0 4px 20px rgba(0,0,0,0.07);
       overflow: hidden;
     }
-    .table-card .table { margin: 0; }
+    .table-responsive-card {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .table-card .table { margin: 0; min-width: 640px; }
     .table-card .table th {
       background: #f8f9fa;
       border-bottom: 2px solid #e9ecef;
@@ -104,9 +117,9 @@
       text-transform: uppercase;
       letter-spacing: 0.5px;
       font-weight: 700;
-      padding: 16px 20px;
+      padding: 14px 16px;
     }
-    .table-card .table td { padding: 14px 20px; vertical-align: middle; border-color: #f1f3f5; }
+    .table-card .table td { padding: 12px 16px; vertical-align: middle; border-color: #f1f3f5; }
     .table-card .table tbody tr:hover { background: #f8fafc; }
     .badge-status {
       padding: 5px 12px;
@@ -152,13 +165,13 @@
       <i class="fas fa-car-side"></i> EaseDrive
     </a>
     <ul class="nav-links">
-      <li><a href="{% url 'customer_dashboard' %}"><i class="fas fa-home"></i> Dashboard</a></li>
-      <li><a href="{% url 'my_bookings' %}"><i class="fas fa-list-alt"></i> My Bookings</a></li>
-      <li><a href="{% url 'customer_book' %}"><i class="fas fa-plus-circle"></i> Book a Car</a></li>
+      <li><a href="{% url 'customer_dashboard' %}"><i class="fas fa-home"></i> <span class="nav-label">Dashboard</span></a></li>
+      <li><a href="{% url 'my_bookings' %}"><i class="fas fa-list-alt"></i> <span class="nav-label">My Bookings</span></a></li>
+      <li><a href="{% url 'customer_book' %}"><i class="fas fa-plus-circle"></i> <span class="nav-label">Book a Car</span></a></li>
       <li>
         <div class="dropdown">
           <button class="user-btn dropdown-toggle" data-bs-toggle="dropdown">
-            <i class="fas fa-user-circle"></i> {{ request.user.username }}
+            <i class="fas fa-user-circle"></i> <span class="nav-label">{{ request.user.username }}</span>
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
             <li><hr class="dropdown-divider"></li>
@@ -187,6 +200,7 @@
 
     <div class="table-card">
       {% if bookings_data %}
+      <div class="table-responsive-card">
       <table class="table table-hover">
         <thead>
           <tr>
@@ -242,6 +256,7 @@
           {% endfor %}
         </tbody>
       </table>
+      </div>
       {% else %}
       <div class="text-center py-5 text-muted">
         <i class="fas fa-clipboard fa-3x mb-3 opacity-25"></i>

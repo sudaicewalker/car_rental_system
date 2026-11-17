@@ -17,7 +17,7 @@
     /* Navbar */
     .dash-nav {
       background: linear-gradient(90deg, #0f3460, #16213e);
-      padding: 0 24px;
+      padding: 0 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -29,52 +29,63 @@
     }
     .dash-nav .brand {
       color: white;
-      font-size: 1.3rem;
+      font-size: 1.1rem;
       font-weight: 700;
       text-decoration: none;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
+      flex-shrink: 0;
     }
     .dash-nav .brand i { color: #4dabf7; }
     .dash-nav .nav-links {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 2px;
       list-style: none;
       margin: 0;
       padding: 0;
+      flex-wrap: nowrap;
+      overflow: hidden;
     }
     .dash-nav .nav-links a {
       color: rgba(255,255,255,0.8);
       text-decoration: none;
-      padding: 8px 14px;
+      padding: 8px 10px;
       border-radius: 8px;
-      font-size: 0.9rem;
+      font-size: 0.82rem;
       transition: all 0.2s;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
+      white-space: nowrap;
     }
     .dash-nav .nav-links a:hover { color: white; background: rgba(255,255,255,0.1); }
+    /* Hide nav text labels on small screens, keep icons */
+    @media (max-width: 480px) {
+      .dash-nav .nav-links .nav-label { display: none; }
+      .dash-nav .nav-links a { padding: 8px; }
+      .dash-nav .brand .brand-label { display: none; }
+    }
     .dash-nav .dropdown-toggle::after { display: none; }
     .dash-nav .user-btn {
       background: rgba(255,255,255,0.1);
       border: 1px solid rgba(255,255,255,0.2);
       color: white;
       border-radius: 8px;
-      padding: 8px 14px;
-      font-size: 0.9rem;
+      padding: 7px 10px;
+      font-size: 0.82rem;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
+      white-space: nowrap;
     }
     /* Page Header */
     .page-header {
       background: linear-gradient(135deg, #0f3460, #0d6efd);
       color: white;
-      padding: 48px 24px 60px;
+      padding: 36px 16px 60px;
       position: relative;
       overflow: hidden;
     }
@@ -86,38 +97,38 @@
       background: #f0f4f8;
       border-radius: 50% 50% 0 0 / 100% 100% 0 0;
     }
-    .page-header h2 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
-    .page-header p { opacity: 0.8; margin: 0; }
+    .page-header h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+    .page-header p { opacity: 0.8; margin: 0; font-size: 0.9rem; }
     /* Main Content */
     .main-content {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 32px 24px 60px;
+      padding: 24px 16px 60px;
     }
     /* Stat Cards */
     .stat-card {
       background: white;
       border-radius: 16px;
-      padding: 24px;
+      padding: 20px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.06);
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 16px;
       transition: transform 0.2s;
     }
     .stat-card:hover { transform: translateY(-3px); }
     .stat-icon {
-      width: 56px;
-      height: 56px;
+      width: 52px;
+      height: 52px;
       border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       flex-shrink: 0;
     }
-    .stat-card h3 { font-size: 2rem; font-weight: 700; margin: 0; color: #1a1a2e; }
-    .stat-card p { font-size: 0.85rem; color: #6c757d; font-weight: 600; text-transform: uppercase; margin: 0; }
+    .stat-card h3 { font-size: 1.8rem; font-weight: 700; margin: 0; color: #1a1a2e; }
+    .stat-card p { font-size: 0.82rem; color: #6c757d; font-weight: 600; text-transform: uppercase; margin: 0; }
     /* Action Cards */
     .action-card {
       background: white;
@@ -166,7 +177,11 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.06);
       overflow: hidden;
     }
-    .table-card .table { margin: 0; }
+    .table-responsive-card {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .table-card .table { margin: 0; min-width: 500px; }
     .table-card .table th {
       background: #f8f9fa;
       border-bottom: 2px solid #e9ecef;
@@ -175,9 +190,9 @@
       text-transform: uppercase;
       letter-spacing: 0.5px;
       font-weight: 600;
-      padding: 14px 20px;
+      padding: 14px 16px;
     }
-    .table-card .table td { padding: 14px 20px; vertical-align: middle; }
+    .table-card .table td { padding: 14px 16px; vertical-align: middle; }
     .badge-status {
       padding: 5px 12px;
       border-radius: 20px;
@@ -194,13 +209,13 @@
       <i class="fas fa-car-side"></i> EaseDrive
     </a>
     <ul class="nav-links">
-      <li><a href="{% url 'customer_dashboard' %}"><i class="fas fa-home"></i> Dashboard</a></li>
-      <li><a href="{% url 'my_bookings' %}"><i class="fas fa-list-alt"></i> My Bookings</a></li>
-      <li><a href="{% url 'customer_book' %}"><i class="fas fa-plus-circle"></i> Book a Car</a></li>
+      <li><a href="{% url 'customer_dashboard' %}"><i class="fas fa-home"></i> <span class="nav-label">Dashboard</span></a></li>
+      <li><a href="{% url 'my_bookings' %}"><i class="fas fa-list-alt"></i> <span class="nav-label">My Bookings</span></a></li>
+      <li><a href="{% url 'customer_book' %}"><i class="fas fa-plus-circle"></i> <span class="nav-label">Book a Car</span></a></li>
       <li>
         <div class="dropdown">
           <button class="user-btn dropdown-toggle" data-bs-toggle="dropdown">
-            <i class="fas fa-user-circle"></i> {{ request.user.username }}
+            <i class="fas fa-user-circle"></i> <span class="nav-label">{{ request.user.username }}</span>
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
             <li><span class="dropdown-item-text text-muted small">{{ request.user.email }}</span></li>
@@ -224,7 +239,7 @@
 
     <!-- Stats Row -->
     <div class="row g-3 mb-4">
-      <div class="col-md-4">
+      <div class="col-12 col-md-4">
         <div class="stat-card">
           <div class="stat-icon bg-primary bg-opacity-10 text-primary">
             <i class="fas fa-car"></i>
@@ -235,7 +250,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-md-4">
         <div class="stat-card">
           <div class="stat-icon bg-warning bg-opacity-10 text-warning">
             <i class="fas fa-clock"></i>
@@ -246,7 +261,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-md-4">
         <div class="stat-card">
           <div class="stat-icon bg-success bg-opacity-10 text-success">
             <i class="fas fa-check-circle"></i>
@@ -264,7 +279,7 @@
       <i class="fas fa-bolt text-warning"></i> Quick Actions
     </div>
     <div class="row g-3 mb-5">
-      <div class="col-md-4">
+      <div class="col-6 col-md-4">
         <a href="{% url 'customer_book' %}" class="action-card">
           <div class="action-icon bg-primary bg-opacity-10 text-primary">
             <i class="fas fa-car-side"></i>
@@ -273,7 +288,7 @@
           <p>Browse available cars and book your ride</p>
         </a>
       </div>
-      <div class="col-md-4">
+      <div class="col-6 col-md-4">
         <a href="{% url 'my_bookings' %}" class="action-card">
           <div class="action-icon bg-info bg-opacity-10 text-info">
             <i class="fas fa-clipboard-list"></i>
@@ -282,7 +297,7 @@
           <p>View all your past and current rentals</p>
         </a>
       </div>
-      <div class="col-md-4">
+      <div class="col-6 col-md-4">
         <a href="{% url 'my_bookings' %}" class="action-card">
           <div class="action-icon bg-success bg-opacity-10 text-success">
             <i class="fas fa-credit-card"></i>
@@ -299,6 +314,7 @@
     </div>
     <div class="table-card">
       {% if recent_bookings %}
+      <div class="table-responsive-card">
       <table class="table table-hover">
         <thead>
           <tr>
@@ -327,6 +343,7 @@
           {% endfor %}
         </tbody>
       </table>
+      </div>
       {% else %}
       <div class="text-center py-5 text-muted">
         <i class="fas fa-car fa-3x mb-3 opacity-25"></i>
